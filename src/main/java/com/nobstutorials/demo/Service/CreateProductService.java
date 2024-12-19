@@ -3,9 +3,11 @@ package com.nobstutorials.demo.Service;
 import com.nobstutorials.demo.Model.Product;
 import com.nobstutorials.demo.Product.ProductDTO;
 import com.nobstutorials.demo.Product.ProductRepository;
+import com.nobstutorials.demo.Validators.ProductValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 
 /**
  * Service class for creating a new product.
@@ -33,6 +35,7 @@ public class CreateProductService implements Command<Product, ProductDTO> {
      */
     @Override
     public ResponseEntity<ProductDTO> execute(Product product) {
+        ProductValidator.execute(product);
         Product savedProduct = productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductDTO(savedProduct));
     }

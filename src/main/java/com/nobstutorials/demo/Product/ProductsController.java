@@ -20,6 +20,7 @@ public class ProductsController {
     private final UpdateProductService updateProductService;
     private final DeleteProductService deleteProductService;
     private final GetProductService getProductService;
+    private final SearchProductService searchProductService;
 
     /**
      * Constructor to initialize the {@code ProductsController} with required services.
@@ -30,12 +31,13 @@ public class ProductsController {
      * @param deleteProductService service to delete a product by ID.
      * @param getProductService service to retrieve a product by ID.
      */
-    public ProductsController(GetProductsService getProductsService, CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService) {
+    public ProductsController(GetProductsService getProductsService, CreateProductService createProductService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService, SearchProductService searchProductService) {
         this.getProductsService = getProductsService;
         this.createProductService = createProductService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
         this.getProductService = getProductService;
+        this.searchProductService = searchProductService;
     }
 
     /**
@@ -91,5 +93,10 @@ public class ProductsController {
     @DeleteMapping("/product/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         return deleteProductService.execute(id);
+    }
+
+    @GetMapping("product/search")
+    public ResponseEntity<List<ProductDTO>> searchProductByName(@RequestParam String name) {
+        return searchProductService.execute(name);
     }
 }
